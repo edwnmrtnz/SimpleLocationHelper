@@ -35,7 +35,7 @@ Implement the interface of the Location Reciever
     override fun onLocationAcquired(location: Location, accuracy: Float) {
         val updates = "Location: " + location.latitude + ":" + 
                        location.longitude + " - " + accuracy + "%"
-        Toast.makeText(this, updates, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, updates, Toast.LENGTH_SHORT).show()
     }
 
     override fun onResolutionRequired(e: Exception?) {
@@ -50,7 +50,7 @@ Implement the interface of the Location Reciever
 
     override fun onFailed(locationFinderProblem: LocationUpdateStatus?) {
         if (locationFinderProblem === LocationUpdateStatus.NO_PERMISSION) 
-          Toast.makeText(this, "Please request permission!", Toast.LENGTH_SHORT).show();
+          Toast.makeText(this, "Please request permission!", Toast.LENGTH_SHORT).show()
         if (locationFinderProblem === LocationUpdateStatus.GPS_NOT_OPEN) 
           Toast.makeText(this, "Please open your gps to start receiving location updates!", Toast.LENGTH_SHORT).show()
         if (locationFinderProblem === LocationUpdateStatus.NOT_RESOLVABLE) 

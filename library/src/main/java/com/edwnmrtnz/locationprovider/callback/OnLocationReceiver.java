@@ -4,7 +4,6 @@ import android.location.Location;
 
 import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus;
 
-
 public interface OnLocationReceiver {
 
     void onLocationReceiverStarted();
@@ -14,4 +13,5 @@ public interface OnLocationReceiver {
     void onResolutionRequired(Exception e);
 
     void onFailed(LocationUpdateStatus locationFinderProblem);
+
 }

@@ -11,11 +11,12 @@ public class GpsStatusChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().matches(LocationManager.PROVIDERS_CHANGED_ACTION)) {
-            if(onGpsLocationSettingsChanged != null){
-                onGpsLocationSettingsChanged.onGpsSettingsChanged();
+        if (intent.getAction() != null)
+            if (intent.getAction().matches(LocationManager.PROVIDERS_CHANGED_ACTION)) {
+                if (onGpsLocationSettingsChanged != null) {
+                    onGpsLocationSettingsChanged.onGpsSettingsChanged();
+                }
             }
-        }
     }
 
     public void setOnGpsLocationSettingsChanged(OnGpsLocationSettingsChanged onGpsLocationSettingsChanged) {
