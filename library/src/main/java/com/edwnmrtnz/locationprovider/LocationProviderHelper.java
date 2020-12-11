@@ -15,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 import com.edwnmrtnz.locationprovider.callback.OnLocationReceiver;
 import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -38,7 +37,7 @@ public class LocationProviderHelper {
 
     private Context context;
 
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
     private final FusedLocationProviderClient fusedLocationProviderClient;
@@ -49,11 +48,14 @@ public class LocationProviderHelper {
 
     private OnLocationReceiver onLocationReceiver;
     private Location bestLastKnownLocation;
+    private final int PRIORITY;
 
-    private int priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
 
-    public LocationProviderHelper(Context context) {
+    public LocationProviderHelper(Context context, int priority) {
+
         this.context = context;
+
+        this.PRIORITY = priority;
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
@@ -68,7 +70,19 @@ public class LocationProviderHelper {
 
     public static LocationProviderHelper getInstance(Context context) {
         if (context == null) throw new NullPointerException("Context cannot be null");
-        if (INSTANCE == null) INSTANCE = new LocationProviderHelper(context);
+        if (INSTANCE == null) INSTANCE = new LocationProviderHelper(
+                context,
+                LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        );
+        return INSTANCE;
+    }
+
+    public static LocationProviderHelper getInstance(Context context, int priority) {
+        if (context == null) throw new NullPointerException("Context cannot be null");
+        if (INSTANCE == null) INSTANCE = new LocationProviderHelper(
+                context,
+                priority
+        );
         return INSTANCE;
     }
 
@@ -83,7 +97,7 @@ public class LocationProviderHelper {
 
         locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
 
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(PRIORITY);
     }
 
 
