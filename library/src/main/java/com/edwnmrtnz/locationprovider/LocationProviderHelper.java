@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import com.edwnmrtnz.locationprovider.callback.OnLocationReceiver;
 import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +50,8 @@ public class LocationProviderHelper {
     private OnLocationReceiver onLocationReceiver;
     private Location bestLastKnownLocation;
 
+    private int priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
+
     public LocationProviderHelper(Context context) {
         this.context = context;
 
@@ -79,6 +82,8 @@ public class LocationProviderHelper {
         locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
 
         locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
 
@@ -123,8 +128,10 @@ public class LocationProviderHelper {
                 int statusCode = ((ApiException) e).getStatusCode();
                 switch (statusCode) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED: {
-                        Log.e(TAG, "Device has problem that can be solved by following the message in the exception: " + e.getMessage());
-                        if (onLocationReceiver != null) onLocationReceiver.onResolutionRequired(e);
+                        Log.e(TAG, "Device has problem that can be solved by following the message in the exception: "
+                                + ((ApiException) e).getStatus().getStatusMessage());
+                        if (onLocationReceiver != null)
+                            onLocationReceiver.onResolutionRequired(e);
                         break;
                     }
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE: {
@@ -155,6 +162,7 @@ public class LocationProviderHelper {
     }
 
     public void destroyInstance() {
+        onLocationReceiver = null;
         context = null;
         INSTANCE = null;
     }
