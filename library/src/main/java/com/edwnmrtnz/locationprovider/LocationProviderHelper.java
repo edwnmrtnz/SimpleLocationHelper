@@ -79,9 +79,8 @@ public class LocationProviderHelper {
         locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
 
         locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
+
 
     private void createLocationCallback() {
         locationCallback = new LocationCallback() {
@@ -155,7 +154,7 @@ public class LocationProviderHelper {
                 });
     }
 
-    void destroyInstance() {
+    public void destroyInstance() {
         context = null;
         INSTANCE = null;
     }

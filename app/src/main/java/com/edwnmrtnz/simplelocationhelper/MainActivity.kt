@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity(), OnLocationReceiver {
 
     override fun onFailed(locationFinderProblem: LocationUpdateStatus?) {
         if (locationFinderProblem === LocationUpdateStatus.NO_PERMISSION) Toast.makeText(this, "Please request permission!", Toast.LENGTH_SHORT).show()
-        if (locationFinderProblem === LocationUpdateStatus.GPS_NOT_OPEN) Toast.makeText(this, "Please open your gps to start receiving location updates!", Toast.LENGTH_SHORT).show()
         if (locationFinderProblem === LocationUpdateStatus.NOT_RESOLVABLE) hasNotResolvableProblem = true
     }
 
